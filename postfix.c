@@ -50,9 +50,7 @@ void evaluation(); // postfix로 변환된 수식을 계산
 int main()
 {
 	char command;
-
 	printf("[----- [한민우] [2018038047] -----]\n");
-
 	do {
 		printf("----------------------------------------------------------------\n");
 		printf("               Infix to Postfix, then Evaluation               \n");
@@ -200,16 +198,17 @@ void toPostfix()
 			postfixPop();               // '('는 그냥 버린다
 		}
 		/* 읽고있는 연산자가 postfixStack의 top에 들어있는 연산자보다 우선순위가 낮으면
-		우선순위가 낮은 연산자 만날 때 까지 postfixStack의 원소들을 pop한 뒤 자신이 push */
+		우선순위가 낮은 연산자 만날 때 까지 postfixStack의 원소들을 pop */
 		else {	
 			while ((getPriority(postfixStack[postfixStackTop])==minus && getPriority(x) == plus)||getPriority(postfixStack[postfixStackTop]) >= getPriority(x)\
 			|| (getPriority(postfixStack[postfixStackTop])==divide && getPriority(x) == times)) {
 				x = postfixPop();
 				charCat(&x);
 			}
+			// 연산자 push
 			postfixPush(*exp);
 		}
-		exp++;
+		exp++; // 다음 문자 읽기
 	}
 	/* postfixStack에 남은 연산자들 pop */
 	while (postfixStack[postfixStackTop] != '\0') {
@@ -274,7 +273,7 @@ void evaluation()
 				break;
 			}
 		}
-		exp++;
+		exp++; // 다음 문자 읽기
 	}
 	evalResult = evalStack[0]; // 결과 저장
 }

@@ -17,24 +17,22 @@ typedef struct {
 }QueueType;
 
 
-QueueType *createQueue();
-int freeQueue(QueueType *cQ);
-int isEmpty(QueueType *cQ);
-int isFull(QueueType *cQ);
-void enQueue(QueueType *cQ, element item);
-void deQueue(QueueType *cQ, element* item);
-void printQ(QueueType *cQ);
-void debugQ(QueueType *cQ);
-element getElement();
+QueueType *createQueue(); // 큐 생성
+int freeQueue(QueueType *cQ); // 동적할당 된 큐 해제
+int isEmpty(QueueType *cQ); // 큐가 공백상태인지 확인
+int isFull(QueueType *cQ);  // 큐가 포화상태인지 확인
+void enQueue(QueueType *cQ, element item); // 큐에 원소 삽입
+void deQueue(QueueType *cQ, element* item); // 큐에 원소 삭제
+void printQ(QueueType *cQ); // 큐 원소 출력
+void debugQ(QueueType *cQ); // 큐 원소 및 front, rear 출력
+element getElement(); // 원소 입력받음
 
 int main(void)
 {
 	QueueType *cQ = createQueue();
 	element data;
 	char command;
-
     printf("[----- [한민우] [2018038047] -----]\n");
-
 	do{
 		printf("\n-----------------------------------------------------\n");
 		printf("                     Circular Q                   \n");
@@ -75,7 +73,6 @@ int main(void)
 
 	}while(command != 'q' && command != 'Q');
 
-
 	return 1;
 }
 /* 원형 큐 생성 및 초기화 */
@@ -85,7 +82,7 @@ QueueType *createQueue()
 	cQ = (QueueType *)malloc(sizeof(QueueType));
 	cQ->front = 0;
 	cQ->rear = 0;
-	for(int i=0;i<MAX_QUEUE_SIZE;i++) cQ->queue[i]=0;
+	for(int i=0;i<MAX_QUEUE_SIZE;i++) cQ->queue[i]='\0';
 	return cQ;
 }
 /* 할당된 메모리 해제 */
@@ -142,6 +139,7 @@ void deQueue(QueueType *cQ, element *item)
 		return;
 	}
 	cQ->front = (cQ->front + 1) % MAX_QUEUE_SIZE; // front 한칸 앞으로 이동
+	cQ->queue[cQ->front] = '\0'; // front에 원소 삭제
     return;
 }
 
@@ -171,7 +169,7 @@ void debugQ(QueueType *cQ)
 	printf("\n---DEBUG\n");
 	for(int i = 0; i < MAX_QUEUE_SIZE; i++)
 	{
-		if(i == cQ->front) {
+		if(i == cQ->front) { // front 따로 출력
 			printf("  [%d] = front\n", i);
 			continue;
 		}
